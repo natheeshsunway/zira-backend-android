@@ -38,24 +38,13 @@ public class MainActivity extends AppCompatActivity {
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDoalog.show();
 
-        mWebview  = new WebView(this);
-
+        // mWebview  = new WebView(this);
+        mWebview=(WebView) findViewById(R.id.mainScreenWebView);
         mWebview.getSettings().setJavaScriptEnabled(true);
-        final Activity activity = this;
-        mWebview.setWebViewClient(new WebViewClient() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
-            }
-            @TargetApi(android.os.Build.VERSION_CODES.M)
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
-                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
-            }
-        });
         mWebview .loadUrl(ziraUrl);
-        setContentView(mWebview);
+
+        final Activity activity = this;
+
         mWebview.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int progress) {
@@ -67,17 +56,12 @@ public class MainActivity extends AppCompatActivity {
                     progressDoalog.dismiss();
                 }
             }
-
-
         });
-
         mWebview.setWebViewClient(new WebViewClient() {
-
             public void onPageFinished(WebView view, String url) {
                 if(flag[0])
                     Toast.makeText(getApplicationContext(), "ZIRA now Online", Toast.LENGTH_SHORT).show();
                 flag[0] =false;
-
             }
         });
     }
